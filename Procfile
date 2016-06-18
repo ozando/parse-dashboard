@@ -1,1 +1,1 @@
-web: bin/parse-dashboard --allowInsecureHTTP
+web: npm start
