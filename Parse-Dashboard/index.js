@@ -43,42 +43,10 @@ let configUserId = program.userId || process.env.PARSE_DASHBOARD_USER_ID;
 let configUserPassword = program.userPassword || process.env.PARSE_DASHBOARD_USER_PASSWORD;
 let configSSLKey = program.sslKey || process.env.PARSE_DASHBOARD_SSL_KEY;
 let configSSLCert = program.sslCert || process.env.PARSE_DASHBOARD_SSL_CERT;
-if (!program.config && !process.env.PARSE_DASHBOARD_CONFIG) {
-  if (configServerURL && configMasterKey && configAppId) {
-    configFromCLI = {
-      data: {
-        apps: [
-          {
-            appId: configAppId,
-            serverURL: configServerURL,
-            masterKey: configMasterKey,
-            appName: configAppName,
-          },
-        ]
-      }
-    };
-    if (configUserId && configUserPassword) {
-      configFromCLI.data.users = [
-        {
-          user: configUserId,
-          pass: configUserPassword,
-        }
-      ];
-    }
-  } else if (!configServerURL && !configMasterKey && !configAppName) {
-    configFile = path.join(__dirname, 'parse-dashboard-config.json');
-  }
-} else if (!program.config && process.env.PARSE_DASHBOARD_CONFIG) {
-  configFromCLI = {
+
+configFromCLI = {
     data: JSON.parse(process.env.PARSE_DASHBOARD_CONFIG)
   };
-} else {
-  configFile = program.config;
-  if (program.appId || program.serverURL || program.masterKey || program.appName) {
-    console.log('You must provide either a config file or required CLI options (app ID, Master Key, and server URL); not both.');
-    process.exit(3);
-  }
-}
 
 let p = null;
 let configFilePath = null;
